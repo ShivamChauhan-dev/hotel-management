@@ -1,6 +1,7 @@
-const cloudinary = require('cloudinary').v2;
-const { v4: uuidv4 } = require('uuid');
-const config = require('../config/config');
+import {v2 as cloudinary} from 'cloudinary';
+import { v4 as uuidv4 } from 'uuid';
+import config from '../config/config.js';
+
 
 cloudinary.config({
   cloud_name: config.cloudinary.cloudName,
@@ -25,7 +26,17 @@ const generateBookingId = () => {
   return `BOOK-${id.substring(0, 8).toUpperCase()}`;
 };
 
-module.exports = {
+const deleteImage = async (imageUrl) => {
+  try {
+      const publicId = imageUrl.split('/').pop().split('.')[0];
+      await cloudinary.uploader.destroy(`hotel-management/rooms/${publicId}`);
+  } catch (error) {
+      throw new Error(`Error deleting image from Cloudinary: ${error.message}`);
+  }
+};
+
+export {
   uploadImageToCloudinary,
   generateBookingId,
+  deleteImage
 };

@@ -13,7 +13,6 @@ import dashboardRoutes from './routes/dashboardRoutes.js'
 import errorHandler from './middleware/errorHandler.js';
 import winston from 'winston';
 import expressWinston from 'express-winston';
-import './config/winston.js'
 
 
 

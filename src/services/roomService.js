@@ -1,7 +1,8 @@
-const Room = require('../models/Room');
-const { roomSchema, getRoomsSchema, idSchema, bulkCreateSchema, updateRoomSchema, roomAvailabilitySchema } = require('../utils/validationSchemas');
-const { uploadImage, deleteImage } = require('../utils/cloudinary');
-
+import Room from '../models/Room.js';
+import { roomSchema, getRoomsSchema, idSchema, bulkCreateSchema, updateRoomSchema, roomAvailabilitySchema } from '../utils/validationSchemas.js';
+import { uploadImage, deleteImage } from '../utils/utils.js';
+  
+  
 class RoomService {
   async createRoom(roomData, image) {
     await roomSchema.parseAsync(roomData);
@@ -122,4 +123,6 @@ class RoomService {
   }
 }
 
-module.exports = new RoomService();
+const roomService = new RoomService();
+
+export default roomService;

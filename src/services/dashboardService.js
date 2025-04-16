@@ -1,6 +1,7 @@
-const Room = require('../models/Room');
-const Booking = require('../models/Booking');
-const { startOfDay, endOfDay, subDays } = require('date-fns');
+import Room from '../models/Room.js';
+import Booking from '../models/Booking.js';
+import { startOfDay, endOfDay, subDays } from 'date-fns';
+
 
 class DashboardService {
   async getTotalRooms() {

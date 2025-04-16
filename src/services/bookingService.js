@@ -1,10 +1,10 @@
-const Booking = require('../models/Booking');
-const Room = require('../models/Room');
-const { bookingSchema, bookingIdSchema, updateMultipleBookingSchema } = require('../utils/zodSchemas');
-const { generateBookingId } = require('../utils/utils');
-const { sendBookingConfirmationEmail } = require('../utils/email');
+import Booking from "../models/Booking.js";
+import Room from "../models/Room.js";
+import { bookingSchema, bookingIdSchema, updateMultipleBookingSchema } from "../utils/validationSchemas.js";
+import { generateBookingId } from "../utils/utils.js";
+import { sendBookingConfirmationEmail } from "../utils/email.js";
 
-class BookingService {
+class BookingService  {
   async createBooking(bookingData, user) {
     const { error } = bookingSchema.validate(bookingData);
     if (error) {
@@ -19,10 +19,10 @@ class BookingService {
     }
 
     const existingBookings = await Booking.find({
-      room: roomId,
-      $or: [
-        { startDate: { $lte: endDate }, endDate: { $gte: startDate } },
-      ],
+        room: roomId,
+        $or: [
+            { startDate: { $lte: endDate }, endDate: { $gte: startDate } },
+        ],
     });
 
     if (existingBookings.length > 0) {
@@ -108,4 +108,6 @@ class BookingService {
   }
 }
 
-module.exports = new BookingService();
+const bookingService = new BookingService();
+
+export default bookingService;

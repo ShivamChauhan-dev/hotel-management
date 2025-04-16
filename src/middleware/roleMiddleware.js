@@ -11,5 +11,4 @@ const roleMiddleware = (roles) => {
     next();
   };
 };
-
-export default roleMiddleware;
+export default roleMiddleware

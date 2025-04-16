@@ -2,7 +2,7 @@
 import config from "../config/config.js";
 import { z } from 'zod';
 
-import userService from "../services/userService.js";
+import { registerUser, loginUser } from "../services/userService.js";
 
 const userSchema = z.object({
   name: z.string().min(3),
@@ -58,7 +58,7 @@ export const register = async (req, res, next) => {
         if (existingUser) {return res.status(400).json({message: 'User already exists',});
         }
 
-        const user = await userService.createUser({name, email, password, role});
+        const user = await registerUser({name, email, password, role});
         res.status(201).json({message: 'User created successfully', user: { name: user.name, email: user.email, role: user.role }});
     } catch (error) {
         next(error);
@@ -70,7 +70,7 @@ export const login = async (req, res, next) => {
         const {email, password} = loginSchema.parse(req.body);
 
         // Find the user by email
-        const {user, token} = await userService.login(email, password, next)
+        const {user, token} = await loginUser({email, password})
 
 
         // Generate a JWT token
@@ -87,7 +87,7 @@ export const getUsers = async (req, res, next) => {
   try {
     const { page, limit, sort, role, enabled } = getUsersSchema.parse(req.query);
 
-    const { users, total } = await userService.getUsers({page, limit, sort, role, enabled}, next);
+    const { users, total } = await userService.getAllUsers({page, limit, sort, role, enabled}, next);
 
     res.json({ users, total, currentPage: page, totalPages: Math.ceil(total / limit) });
   } catch (error) {

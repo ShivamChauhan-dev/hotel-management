@@ -1,7 +1,7 @@
-const dashboardService = require('../services/dashboardService');
-const { z } = require('zod');
-const config = require('../config/config')
-
+import dashboardService from '../services/dashboardService.js';
+import { z } from 'zod';
+import config from '../config/config.js'
+  
 const dateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Invalid date format. Expected YYYY-MM-DD" });
 
 const getDashboardSchema = z.object({
@@ -10,7 +10,7 @@ const getDashboardSchema = z.object({
     period: z.enum(['daily', 'weekly', 'monthly']).optional(),
 });
 
-const dashboardController = {
+const dashboardController =  {
     getTotalRooms: async (req, res, next) => {
         try {
             const totalRooms = await dashboardService.getTotalRooms();
@@ -70,4 +70,4 @@ const dashboardController = {
     },
 };
 
-module.exports = dashboardController;
+export default dashboardController;

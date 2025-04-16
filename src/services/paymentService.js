@@ -1,9 +1,10 @@
-const Razorpay = require('razorpay');
-const { config } = require('../config/config');
-const { Booking } = require('../models/Booking');
-const { sendEmail } = require('../utils/email');
-const { logger } = require('../config/logger');
-
+import Razorpay from 'razorpay';
+import config from '../config/config.js';
+import Booking from '../models/Booking.js';
+import { sendEmail } from '../utils/email.js';
+import logger from '../config/logger.js';
+import crypto from 'crypto';
+  
 const razorpayInstance = new Razorpay({
   key_id: config.RAZORPAY_KEY_ID,
   key_secret: config.RAZORPAY_KEY_SECRET,
@@ -61,7 +62,7 @@ const verifyPayment = async (razorpayOrderId, razorpayPaymentId, razorpaySignatu
   }
 };
 
-module.exports = {
-  createOrder,
-  verifyPayment,
-};
+export const paymentService = {
+    createOrder,
+    verifyPayment,
+  };
