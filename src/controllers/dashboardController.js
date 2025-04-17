@@ -1,4 +1,4 @@
-import dashboardService from '../services/dashboardService.js';
+const dashboardService = require('../services/dashboardService.js');
 import { z } from 'zod';
 import config from '../config/config.js'
   

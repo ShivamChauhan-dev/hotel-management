@@ -2,7 +2,7 @@ import Booking from "../models/Booking.js";
 import Room from "../models/Room.js";
 import { bookingSchema, bookingIdSchema, updateMultipleBookingSchema } from "../utils/validationSchemas.js";
 import { generateBookingId } from "../utils/utils.js";
-import { sendBookingConfirmationEmail } from "../utils/email.js";
+import { sendEmail } from "../utils/email.js";
 
 class BookingService  {
   async createBooking(bookingData, user) {
@@ -41,7 +41,13 @@ class BookingService  {
 
     await newBooking.save();
 
-    await sendBookingConfirmationEmail(user.email, bookingId);
+    await sendEmail({
+        to: user.email,
+        subject: "Booking Confirmation",
+        html: `<h1>Your booking has been confirmed</h1>
+        <p>Your booking id is ${bookingId}</p>
+        `,
+    });
 
     return newBooking;
   }

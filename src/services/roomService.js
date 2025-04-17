@@ -1,13 +1,13 @@
 import Room from '../models/Room.js';
 import { roomSchema, getRoomsSchema, idSchema, bulkCreateSchema, updateRoomSchema, roomAvailabilitySchema } from '../utils/validationSchemas.js';
-import { uploadImage, deleteImage } from '../utils/utils.js';
+import { uploadImageToCloudinary, deleteImage } from '../utils/utils.js';
   
   
 class RoomService {
   async createRoom(roomData, image) {
     await roomSchema.parseAsync(roomData);
-    const result = await uploadImage(image.path);
-    const newRoom = new Room({ ...roomData, image: result.secure_url });
+    const result = await uploadImageToCloudinary(image.path);
+    const newRoom = new Room({ ...roomData, image: result.url });
     return await newRoom.save();
   }
 
@@ -68,8 +68,8 @@ class RoomService {
     }
     if (image) {
       await deleteImage(room.image);
-      const result = await uploadImage(image.path);
-      roomData.image = result.secure_url;
+      const result = await uploadImageToCloudinary(image.path);
+      roomData.image = result.url;
     }
     const updatedRoom = await Room.findByIdAndUpdate(id, roomData, { new: true });
     return updatedRoom;

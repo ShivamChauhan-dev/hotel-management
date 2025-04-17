@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { config } from '../config/config.js'; 
-import { bookingService } from '../services/bookingService.js';
-import { logger } from '../config/logger.js';
+import config from '../config/config.js'; 
+import bookingService from '../services/bookingService.js';
+import logger from '../config/logger.js';
 import { paymentService } from '../services/paymentService.js';
 
 const createPaymentOrderSchema = z.object({
